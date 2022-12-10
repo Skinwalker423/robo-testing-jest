@@ -19,7 +19,7 @@ it('renders without crashing', () => {
 	expect(wrapper).toMatchSnapshot();
 });
 
-it('fileters Robots', () => {
+it('filters Robots', () => {
 	const mockProps = {
 		onRequestRobots: jest.fn(),
 		robots: [],
