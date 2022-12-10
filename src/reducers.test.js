@@ -91,9 +91,27 @@ describe('requestRobots', () => {
 				type: REQUEST_ROBOTS_SUCCESS,
 				payload: [],
 			})
+		).toEqual(initialStateRobots);
+	});
+	it('should handle REQUEST_ROBOTS_FAILED', () => {
+		const mockRobotsState = [
+			{
+				name: 'Robocop',
+				id: 1,
+			},
+			{
+				name: 'Terminator',
+				id: 2,
+			},
+		];
+		expect(
+			reducers.requestRobots(initialStateRobots, {
+				type: REQUEST_ROBOTS_FAILED,
+				payload: 'failed',
+			})
 		).toEqual({
-			isPending: false,
-			robots: [],
+			error: 'failed',
+			...initialStateRobots,
 		});
 	});
 });
