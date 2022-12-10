@@ -1,26 +1,40 @@
-import * as actions from './actions'
-import * as types from './constants'
-import configureMockStore from 'redux-mock-store'
-import thunkMiddleware from 'redux-thunk'
+import { setSearchField, requestRobots } from './actions';
 
-export const mockStore = configureMockStore([thunkMiddleware]);
+import {
+	CHANGE_SEARCHFIELD,
+	REQUEST_ROBOTS_PENDING,
+	REQUEST_ROBOTS_SUCCESS,
+	REQUEST_ROBOTS_FAILED,
+} from './constants';
 
-describe('actions', () => {
-  it('should create an action to search', () => {
-    const text = 'Finish docs'
-    const expectedAction = {
-      type: types.CHANGE_SEARCHFIELD,
-      payload: text
-    }
-    expect(actions.setSearchField(text)).toEqual(expectedAction)
-  })
-})
+import thunkMiddleware from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 
-describe("Fetch robots action PENDING", () => {
-  it("should creat a Pending action on request Robots", () => {
-    const store = mockStore();
-    store.dispatch(actions.requestRobots())
-    const action = store.getActions();
-    expect(action[0]).toEqual({type: "REQUEST_ROBOTS_PENDING"});
-  });
+const mockStore = configureMockStore([thunkMiddleware]);
+
+describe('setSearchField', () => {
+	it('CHANGE_SEARCHFIELD', () => {
+		expect(setSearchField('tests')).toEqual({
+			type: CHANGE_SEARCHFIELD,
+			payload: 'tests',
+		});
+		expect(setSearchField(undefined)).toEqual({
+			type: CHANGE_SEARCHFIELD,
+			payload: undefined,
+		});
+		expect(setSearchField('')).toEqual({
+			type: CHANGE_SEARCHFIELD,
+			payload: '',
+		});
+	});
+});
+describe('requestRobots', () => {
+	it('handles request robots api', () => {
+		const store = mockStore();
+		store.dispatch(requestRobots());
+		const action = store.getActions();
+		expect(action[0]).toEqual({
+			type: REQUEST_ROBOTS_PENDING,
+		});
+	});
 });
